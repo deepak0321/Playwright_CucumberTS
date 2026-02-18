@@ -1,0 +1,9 @@
+To Install Playwright - npm init playwright@latest
+To Run Test           - npx playwright test
+To View HTML Report   - npx playwright show-report
+TO Run Test in UI mode- npx playwright test --ui
+TO Run headed         - npx playwright test --headed
+TO Run in Debug mode  - npx playwright test --debug
+Codegen               - npx playwright codegen
+
+test.describe() is used to group multiple related test cases together.
