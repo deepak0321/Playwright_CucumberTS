@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
+import fs from 'fs';
 
-test.setTimeout(60000);
+test.setTimeout(15000);
 test.describe('LearnQA Tests', () => {
 
     test.beforeAll(async () => {
@@ -33,7 +34,7 @@ test.describe('LearnQA Tests', () => {
         await expect(page.locator('.text-center')).toContainText('All items have been moved to the drop zone!');
     });
 
-    test.only('Dynamic Elements Test', async ({ page }) => {
+    test('Dynamic Elements Test', async ({ page }) => {
         await page.getByRole('link', { name: 'Dynamic Elements' }).click();
         await expect(page.getByText('Test delayed elements, AJAX loading, lazy loading, and infinite scroll')).toBeVisible();
         await page.getByRole('button', { name: 'Click to Show Delayed Element' }).click();
@@ -55,7 +56,7 @@ test.describe('LearnQA Tests', () => {
         await page.getByRole('button', { name: 'Reveal Hidden Elements' }).click();
         await expect(page.getByText('🎉 Hidden element revealed!')).toBeVisible();
         await page.getByRole('button', { name: 'Generate Dynamic Content' }).click();
-        const firstDynamicContent =  await page.locator('#dynamic-content').textContent();
+        const firstDynamicContent = await page.locator('#dynamic-content').textContent();
         await page.getByRole('button', { name: 'Generate Dynamic Content' }).click();
         const secondDynamicContent = await page.locator('#dynamic-content').textContent();
         console.log('First Dynamic Content:', firstDynamicContent);
@@ -63,20 +64,98 @@ test.describe('LearnQA Tests', () => {
         expect(firstDynamicContent).not.toBe(secondDynamicContent);
     });
 
+    test('File Handling Test', async ({ page }) => {
+
+        await page.getByRole('link', { name: 'File Operations' }).click();
+        await expect(page.getByText('Test file upload, download and Excel processing')).toBeVisible();
+
+        const [download] = await Promise.all([
+            page.waitForEvent('download'),
+            page.getByRole('button', { name: 'Download Template Excel' }).click(),
+        ]);
+        await download.saveAs(`./downloads/${download.suggestedFilename()}`);
+
+        await page.locator('input[type="file"]').setInputFiles(`./downloads/${download.suggestedFilename()}`);
+
+        const [processedDownload] = await Promise.all([
+            page.waitForEvent('download'),
+            page.locator('#download-processed').click(),
+        ]);
+
+        await processedDownload.saveAs(`./downloads/${processedDownload.suggestedFilename()}`);
+        expect(fs.existsSync(`./downloads/${processedDownload.suggestedFilename()}`)).toBeTruthy();
+
+    });
+
+    test('iFrames Test', async ({ page }) => {
+        //Basic iFrame Interactions
+        await page.locator('a[href*="iframe"] button').click();
+        await expect(page.getByText('Test iframe interactions, popup windows, and browser dialogs')).toBeVisible();
+        await expect(page.frameLocator('#basic-iframe').locator('#iframe-button')).toBeVisible();
+        await page.getByRole('button', { name: 'Send Message to iFrame' }).click();
+        await expect(page.frameLocator('#basic-iframe').getByText('Hello from parent window!')).toBeVisible();
+        await page.frameLocator('#basic-iframe').locator('#iframe-button').click();
+        await expect(page.locator('#iframe-message-display')).toContainText('Hello from basic iframe!');
+
+        //Form Interactions within iFrame
+        await page.getByRole('button', { name: 'Form' }).click();
+        const iframe = page.frameLocator('#basic-iframe');
+        await expect(iframe.getByText('iFrame Form Content')).toBeVisible();
+        await iframe.getByPlaceholder('Enter your name').fill('Leo Das');
+        await iframe.locator('#iframe-email').fill('leodas@datura.com');
+        await iframe.locator('#iframe-comment').fill('Nan dan da leo das!');
+        page.once('dialog', dialog => {
+            console.log(`Dialog message: ${dialog.message()}`);
+            dialog.dismiss().catch(() => { });
+        });
+        await iframe.getByRole('button', { name: 'Submit Form' }).click();
+    });
+
+    test.only('Multiple Windows Test', async ({ page }) => {
+        await page.locator('a[href*="windows"] button').click();
+        await expect(page.getByText('Test iframe interactions, popup windows, and browser dialogs')).toBeVisible();
+
+        const [popup] = await Promise.all([
+            page.waitForEvent('popup'),
+            page.getByRole('button', { name: 'Basic Popup (600×400, Resizable)' }).click(),
+        ]);
+
+        await popup.waitForLoadState('networkidle');
+        await expect(popup.getByText('Popup window loaded successfully!')).toBeVisible();
+        await popup.locator('#popup-close').click();
 
 
+        const [smallPopup] = await Promise.all([
+            page.waitForEvent('popup'),
+            page.getByRole('button', { name: 'Small Popup (300×200, Fixed)' }).click(),
+        ]);
 
+        await smallPopup.waitForLoadState('networkidle');
+        await expect(smallPopup.getByText('Popup window loaded successfully!')).toBeVisible();
+        await smallPopup.locator('#popup-close').click();
 
+        //Browser Dialogs
+        page.on('dialog', dialogHandler => {
+            console.log(`Dialog message: ${dialogHandler.message()}`);
+            if (dialogHandler.type() === 'confirm') {
+                dialogHandler.accept().catch(() => { });
+            } else if (dialogHandler.type() === 'prompt') {
+                dialogHandler.accept('LeoDas').catch(() => { });
+            } else {
+                dialogHandler.dismiss().catch(() => { });
+            }
+        });
 
+        await page.getByRole('button', { name: 'Show Alert Dialog' }).click();
+        await page.getByRole('button', { name: 'Show Confirm Dialog' }).click();
+        await page.getByRole('button', { name: 'Show Prompt Dialog' }).click();
+        await expect(page.locator('#alert-result')).toHaveText('Prompt result: LeoDas');
 
-
-
-
-
-
-
-
-
+        //Custom Modals
+        await page.getByRole('button', { name: 'Open Modal Dialog' }).click();
+        await expect(page.locator('#custom-modal')).toBeVisible();
+        await page.locator('#modal-action').click();
+    });
 
     test('Login Test with Valid Credentials', async ({ page }) => {
         await page.getByRole('button', { name: 'Accept All' }).click();
