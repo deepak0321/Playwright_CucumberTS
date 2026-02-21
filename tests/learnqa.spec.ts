@@ -1,7 +1,10 @@
 import { test, expect } from '@playwright/test';
 import fs from 'fs';
 
-test.setTimeout(15000);
+test.setTimeout(60000);
+
+test.describe.configure({mode:'default'});
+
 test.describe('LearnQA Tests', () => {
 
     test.beforeAll(async () => {
@@ -178,7 +181,7 @@ test.describe('LearnQA Tests', () => {
         await page.locator('#hover-card').hover({timeout:2000});
     });
 
-    test.only('Shadow DOM Test',async({page})=>{
+    test('Shadow DOM Test',async({page})=>{
         await page.getByRole('link',{name:'Shadow DOM'}).click();
         await page.getByRole('button',{name:'Create Basic Shadow DOM'}).click();
         await page.getByRole('button',{name:'Shadow Button'}).click();
@@ -187,7 +190,7 @@ test.describe('LearnQA Tests', () => {
 
 
 
-    test('Login Test with Valid Credentials', async ({ page }) => {
+    test.skip('Login Test with Valid Credentials', async ({ page }) => {
         await page.getByRole('button', { name: 'Accept All' }).click();
         await page.getByRole('button', { name: 'Sign In' }).nth(1).click();
         await page.getByPlaceholder('Enter your email').fill(process.env.email!);

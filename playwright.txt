@@ -5,5 +5,9 @@ TO Run Test in UI mode- npx playwright test --ui
 TO Run headed         - npx playwright test --headed
 TO Run in Debug mode  - npx playwright test --debug
 Codegen               - npx playwright codegen
+workers               - npx playwright test --workers=2
+To Generate Allure Report - allure generate ./allure-results -o ./allure-report
+To View Allure Report     - allure open ./allure-report
+
 
 test.describe() is used to group multiple related test cases together.
