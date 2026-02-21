@@ -111,7 +111,7 @@ test.describe('LearnQA Tests', () => {
         await iframe.getByRole('button', { name: 'Submit Form' }).click();
     });
 
-    test.only('Multiple Windows Test', async ({ page }) => {
+    test('Multiple Windows Test', async ({ page }) => {
         await page.locator('a[href*="windows"] button').click();
         await expect(page.getByText('Test iframe interactions, popup windows, and browser dialogs')).toBeVisible();
 
@@ -156,6 +156,36 @@ test.describe('LearnQA Tests', () => {
         await expect(page.locator('#custom-modal')).toBeVisible();
         await page.locator('#modal-action').click();
     });
+
+    test('Keyboard and Mouse Events Test', async ({ page }) => {
+        await page.locator('a[href*="keyboard-mouse"] button').click();
+        await page.getByRole('button', { name: /Use Backspace to clear field/ }).click();
+        const inputfieldValue = page.locator('#search-field');
+        while (true) {
+            const inputValue = await inputfieldValue.inputValue();
+            if(inputValue === ""){
+                break;
+            }
+            await page.keyboard.press('Backspace');
+        }
+        await page.keyboard.press('Backspace'); 
+        await page.getByRole('button',{name:/Click to open dialog/}).click();
+        await page.keyboard.press('Enter');
+        await page.keyboard.press('Escape');
+
+        await page.locator('#editable-text').dblclick();
+
+        await page.locator('#hover-card').hover({timeout:2000});
+    });
+
+    test.only('Shadow DOM Test',async({page})=>{
+        await page.getByRole('link',{name:'Shadow DOM'}).click();
+        await page.getByRole('button',{name:'Create Basic Shadow DOM'}).click();
+        await page.getByRole('button',{name:'Shadow Button'}).click();
+        await expect(page.getByText('Great! You clicked the shadow button!')).toBeVisible();
+    });
+
+
 
     test('Login Test with Valid Credentials', async ({ page }) => {
         await page.getByRole('button', { name: 'Accept All' }).click();
