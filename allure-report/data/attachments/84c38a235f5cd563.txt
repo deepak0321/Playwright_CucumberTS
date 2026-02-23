@@ -1,0 +1,4 @@
+Dialog message: This is a browser alert dialog!
+Dialog message: Do you want to proceed?
+Dialog message: Please enter your name:
+Dialog message: Modal action triggered!

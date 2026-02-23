@@ -6,8 +6,11 @@ TO Run headed         - npx playwright test --headed
 TO Run in Debug mode  - npx playwright test --debug
 Codegen               - npx playwright codegen
 workers               - npx playwright test --workers=2
+To install allure modules - npm install -D allure-playwright
 To Generate Allure Report - allure generate ./allure-results -o ./allure-report
 To View Allure Report     - allure open ./allure-report
+To Run Last Failed Tests  - npx playwright test --last-failed
+
 
 
 test.describe() is used to group multiple related test cases together.

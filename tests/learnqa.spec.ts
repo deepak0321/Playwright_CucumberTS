@@ -3,7 +3,7 @@ import fs from 'fs';
 
 test.setTimeout(60000);
 
-test.describe.configure({mode:'default'});
+test.describe.configure({mode:'parallel'});
 
 test.describe('LearnQA Tests', () => {
 

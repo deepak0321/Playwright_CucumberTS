@@ -10,15 +10,15 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   retries:2,
-  workers:5,
+  workers:3,
   reporter: [['html'],['allure-playwright']],
   use: {
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } },
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } , headless: false},
     },
   ],
 });
