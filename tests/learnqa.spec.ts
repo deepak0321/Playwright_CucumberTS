@@ -3,17 +3,16 @@ import fs from 'fs';
 
 test.setTimeout(60000);
 
-test.describe.configure({mode:'parallel'});
+test.describe.configure({ mode: 'parallel' });
 
 test.afterAll(async () => {
-        console.log('This is after all tests');
-    });
+    console.log('This is after all tests');
+});
 
+test.beforeAll(async () => {
+    console.log('This is before all tests');
+});
 test.describe('LearnQA Tests', () => {
-
-    test.beforeAll(async () => {
-        console.log('This is before all tests');
-    });
 
     test.beforeEach(async ({ page }) => {
         await page.goto('https://www.learnaqa.info/');
@@ -166,25 +165,25 @@ test.describe('LearnQA Tests', () => {
         const inputfieldValue = page.locator('#search-field');
         while (true) {
             const inputValue = await inputfieldValue.inputValue();
-            if(inputValue === ""){
+            if (inputValue === "") {
                 break;
             }
             await page.keyboard.press('Backspace');
         }
-        await page.keyboard.press('Backspace'); 
-        await page.getByRole('button',{name:/Click to open dialog/}).click();
+        await page.keyboard.press('Backspace');
+        await page.getByRole('button', { name: /Click to open dialog/ }).click();
         await page.keyboard.press('Enter');
         await page.keyboard.press('Escape');
 
         await page.locator('#editable-text').dblclick();
 
-        await page.locator('#hover-card').hover({timeout:2000});
+        await page.locator('#hover-card').hover({ timeout: 2000 });
     });
 
-    test('Shadow DOM Test',async({page})=>{
-        await page.getByRole('link',{name:'Shadow DOM'}).click();
-        await page.getByRole('button',{name:'Create Basic Shadow DOM'}).click();
-        await page.getByRole('button',{name:'Shadow Button'}).click();
+    test('Shadow DOM Test', async ({ page }) => {
+        await page.getByRole('link', { name: 'Shadow DOM' }).click();
+        await page.getByRole('button', { name: 'Create Basic Shadow DOM' }).click();
+        await page.getByRole('button', { name: 'Shadow Button' }).click();
         await expect(page.getByText('Great! You clicked the shadow button!')).toBeVisible();
     });
 
