@@ -1,5 +1,5 @@
 pipeline {
-   agent { dockerContainer { image 'mcr.microsoft.com/playwright:v1.58.2-noble' } }
+   agent { docker { image 'mcr.microsoft.com/playwright:v1.58.2-noble' } }
     environment {
       WEB = credentials('WEB_LOGIN')
       EMAIL = "${WEB_USR}"

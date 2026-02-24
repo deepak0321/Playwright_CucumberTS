@@ -5,14 +5,14 @@ test.setTimeout(60000);
 
 test.describe.configure({mode:'parallel'});
 
+test.afterAll(async () => {
+        console.log('This is after all tests');
+    });
+
 test.describe('LearnQA Tests', () => {
 
     test.beforeAll(async () => {
         console.log('This is before all tests');
-    });
-
-    test.afterAll(async () => {
-        console.log('This is after all tests');
     });
 
     test.beforeEach(async ({ page }) => {
