@@ -10,7 +10,7 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   retries:2,
-  workers:3,
+  workers:process.env.CI? 1:undefined,
   reporter: [['html'],['allure-playwright']],
   use: {
     trace: 'retain-on-failure',
