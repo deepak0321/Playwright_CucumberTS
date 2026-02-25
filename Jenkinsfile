@@ -2,15 +2,14 @@ pipeline {
     agent {
         docker {
             image 'mcr.microsoft.com/playwright:v1.58.2-noble'
+            args '--ipc=host'
         }
     }
-
     environment {
         WEB = credentials('WEB_LOGIN')
         EMAIL = "${WEB_USR}"
         PASSWORD = "${WEB_PSW}"
     }
-
     stages {
 
         stage('Checkout') {
@@ -27,12 +26,13 @@ pipeline {
 
         stage('Run Playwright Tests') {
             steps {
-                sh '''
-                  export EMAIL=$EMAIL
-                  export PASSWORD=$PASSWORD
-                  npx playwright test
-                '''
+                sh 'npx playwright test'
             }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
         }
     }
 }
