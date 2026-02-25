@@ -1,15 +1,12 @@
 pipeline {
-    agent {
-        docker {
-            image 'mcr.microsoft.com/playwright:v1.58.2-noble'
-            args '--ipc=host'
-        }
-    }
+    agent any
+
     environment {
         WEB = credentials('WEB_LOGIN')
         EMAIL = "${WEB_USR}"
         PASSWORD = "${WEB_PSW}"
     }
+
     stages {
 
         stage('Checkout') {
@@ -18,18 +15,20 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Run Playwright in Docker') {
             steps {
-                sh 'npm ci'
-            }
-        }
+                script {
+                    docker.image('mcr.microsoft.com/playwright:v1.58.2-noble')
+                        .inside('--ipc=host') {
 
-        stage('Run Playwright Tests') {
-            steps {
-                sh 'npx playwright test'
+                        sh 'npm ci'
+                        sh 'npx playwright test'
+                    }
+                }
             }
         }
     }
+
     post {
         always {
             archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
