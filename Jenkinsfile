@@ -15,16 +15,15 @@ pipeline {
             }
         }
 
-        stage('Run Playwright in Docker') {
+        stage('Install Dependencies') {
             steps {
-                script {
-                    docker.image('mcr.microsoft.com/playwright:v1.58.2-noble')
-                        .inside('--ipc=host') {
+                bat 'npm ci'
+            }
+        }
 
-                        sh 'npm ci'
-                        sh 'npx playwright test'
-                    }
-                }
+        stage('Run Playwright Tests') {
+            steps {
+                bat 'npx playwright test'
             }
         }
     }
