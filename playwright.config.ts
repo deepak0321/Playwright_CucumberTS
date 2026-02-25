@@ -6,21 +6,22 @@ if (!process.env.CI) {
 }
 
 export default defineConfig({
-  expect:{
+  use: {
+    baseURL: 'https://restful-booker.herokuapp.com',
+    trace: 'retain-on-failure'
+  },
+  expect: {
     timeout: 10000
   },
   testDir: './tests',
   fullyParallel: true,
-  retries:2,
-  workers:process.env.CI? 1:undefined,
-  reporter: [['html'],['allure-playwright']],
-  use: {
-    trace: 'retain-on-failure',
-  },
+  retries: 2,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: [['html'], ['allure-playwright']],
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 }},
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } },
     },
   ],
 });
