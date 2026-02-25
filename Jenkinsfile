@@ -28,7 +28,7 @@ pipeline {
         stage('Run Playwright Tests') {
             environment {
                 EMAIL = credentials('WEB_LOGIN_USR')
-                PASSWORD = credentials('WEB_LOGIN_PSW')
+                PASSWORD = credentials('WEB_LOGIN_PWD')
             }
             steps {
                 bat 'npx playwright test'
