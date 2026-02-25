@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        WEB = credentials('WEB_LOGIN')
-        EMAIL = "${WEB_USR}"
-        PASSWORD = "${WEB_PSW}"
+        CI = 'true'
     }
 
     stages {
@@ -21,7 +19,17 @@ pipeline {
             }
         }
 
+        stage('Install Playwright Browsers') {
+            steps {
+                bat 'npx playwright install'
+            }
+        }
+
         stage('Run Playwright Tests') {
+            environment {
+                EMAIL = credentials('WEB_LOGIN_USR')
+                PASSWORD = credentials('WEB_LOGIN_PSW')
+            }
             steps {
                 bat 'npx playwright test'
             }
