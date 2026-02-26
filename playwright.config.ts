@@ -28,7 +28,7 @@ export default defineConfig({
     },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 }, storageState: 'storageState.json' }, dependencies: ['login setup'],
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 }, storageState: '.auth/storageState.json' }, dependencies: ['login setup'],
     },
   ],
 });
