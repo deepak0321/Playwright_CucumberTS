@@ -6,9 +6,11 @@ if (!process.env.CI) {
 }
 
 export default defineConfig({
+  
   use: {
     baseURL: 'https://restful-booker.herokuapp.com',
-    trace: 'retain-on-failure'
+    trace: 'retain-on-failure',
+    permissions: ['geolocation']
   },
   expect: {
     timeout: 10000
