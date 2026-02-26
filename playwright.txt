@@ -14,3 +14,5 @@ To Run Last Failed Tests  - npx playwright test --last-failed
 
 
 test.describe() is used to group multiple related test cases together.
+👉 Playwright checks routes from bottom to top
+👉 Last page.route() written runs first.

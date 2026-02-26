@@ -10,14 +10,15 @@ export default defineConfig({
   use: {
     baseURL: 'https://restful-booker.herokuapp.com',
     trace: 'retain-on-failure',
-    permissions: ['geolocation']
+    permissions: ['geolocation'],
+    screenshot: 'only-on-failure',
   },
   expect: {
     timeout: 10000
   },
   testDir: './tests',
   fullyParallel: true,
-  retries: 2,
+  retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [['html'], ['allure-playwright']],
   projects: [
