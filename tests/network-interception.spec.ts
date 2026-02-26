@@ -18,7 +18,7 @@ test.describe('LearnQA Tests', () => {
                 body: 'Not Found!'
             })
         });
-        
+
         await page.goto('https://www.learnaqa.info/');
         await page.getByRole('button', { name: 'Accept All' }).click();
         await page.getByRole('button', { name: 'Sign In' }).nth(1).click();
@@ -39,7 +39,7 @@ test.describe('LearnQA Tests', () => {
         await expect(page.getByRole('status')).toHaveText('Network Error');
     });
 
-    test.only('Modify Login Request Test', async ({ page }) => {
+    test('Modify Login Request Test', async ({ page }) => {
 
         await page.route('**/login', async route => {
             const request = route.request();

@@ -18,13 +18,17 @@ export default defineConfig({
   },
   testDir: './tests',
   fullyParallel: true,
-  retries: process.env.CI ? 1 : 0,
+  retries: process.env.CI ? 1 : 1,
   workers: process.env.CI ? 1 : undefined,
   reporter: [['html'], ['allure-playwright']],
   projects: [
     {
+        name:'login setup',
+        testMatch: 'learnqa-login.setup.spec.ts',
+    },
+    {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } },
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 }, storageState: 'storageState.json' }, dependencies: ['login setup'],
     },
   ],
 });

@@ -14,14 +14,9 @@ test.beforeAll(async () => {
 });
 test.describe('LearnQA Tests', () => {
 
-    test.beforeEach(async ({ page }) => {
-        await page.goto('https://www.learnaqa.info/');
-        await page.getByRole('button', { name: 'Accept All' }).click();
-        await page.getByRole('button', { name: 'Sign In' }).nth(1).click();
-        await page.getByPlaceholder('Enter your email').fill(process.env.EMAIL!);
-        await page.getByLabel('Password').fill(process.env.PASSWORD!);
-        await page.getByRole('button', { name: 'Sign In' }).click();
-        await expect(page.getByRole('status')).toHaveText('Successfully logged in!');
+    test.beforeEach(async ({ page }, testInfo) => {
+        console.log('Running Test:', testInfo.title);
+        await page.goto('https://www.learnaqa.info/dashboard');
     });
 
     test('Drag and Drop Test', async ({ page }) => {

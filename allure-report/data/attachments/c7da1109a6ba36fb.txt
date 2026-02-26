@@ -1,2 +1,0 @@
-First Dynamic Content: This text changes each time!
-Second Dynamic Content: Timestamp: 11:57:38 AM

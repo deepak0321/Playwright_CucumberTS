@@ -1,0 +1,43 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.807781579.1772112361",
+      "domain": ".learnaqa.info",
+      "path": "/",
+      "expires": 1806672361.341247,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_2MVLMBBWW5",
+      "value": "GS2.1.s1772112361$o1$g1$t1772112363$j58$l0$h0",
+      "domain": ".learnaqa.info",
+      "path": "/",
+      "expires": 1806672363.342247,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.learnaqa.info",
+      "localStorage": [
+        {
+          "name": "cookie-consent",
+          "value": "{\"essential\":true,\"analytics\":true,\"performance\":true,\"timestamp\":\"2026-02-26T13:26:02.295Z\"}"
+        },
+        {
+          "name": "qa_platform_refresh_token",
+          "value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzI3MTcxNjMsInN1YiI6IjE4NSIsInR5cGUiOiJyZWZyZXNoIn0.antjyjHSO_rnlPZWXkc1Plvir7RiRjfVOb3mCZkhu9U\""
+        },
+        {
+          "name": "qa_platform_token",
+          "value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxMTQxNjMsInN1YiI6IjE4NSIsInR5cGUiOiJhY2Nlc3MifQ.xCSUHjmIiwPi-8WiJwycYgE5UW41oZ0iUM-vR32_POU\""
+        }
+      ]
+    }
+  ]
+}

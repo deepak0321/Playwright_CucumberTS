@@ -1,2 +1,0 @@
-First Dynamic Content: Random value: a95fkhh
-Second Dynamic Content: Dynamic content loaded!
