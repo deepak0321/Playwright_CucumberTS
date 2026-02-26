@@ -30,34 +30,18 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # 5️⃣ Run Playwright tests
+      # 5️⃣ Run Playwright tests with HTML report
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --reporter=html
         env:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
 
-      # 6️⃣ Install Java for Allure
-      - name: Install Java (for Allure)
-        run: |
-          apt-get update
-          apt-get install -y openjdk-11-jdk
-          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-          export PATH=$JAVA_HOME/bin:$PATH
-
-      # 7️⃣ Install Allure CLI
-      - name: Install Allure Commandline
-        run: npm install -g allure-commandline --save-dev
-
-      # 8️⃣ Generate Allure Report
-      - name: Generate Allure Report
-        run: allure generate ./allure-results -o ./allure-report --clean
-
-      # 9️⃣ Upload Allure Report as artifact
-      - name: Upload Allure Report
+      # 6️⃣ Upload HTML report as artifact
+      - name: Upload HTML Report
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: allure-report
-          path: allure-report/
+          name: playwright-html-report
+          path: playwright-report/
           retention-days: 30
