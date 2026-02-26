@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+test.use({ storageState:{ cookies: [], origins: [] } }); // Clear storage state for this test file
+
 test.describe('LearnQA Tests', () => {
 
     test('Force Login Failure Test with Valid Credentials', async ({ page }) => {

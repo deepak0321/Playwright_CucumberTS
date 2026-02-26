@@ -24,11 +24,17 @@ export default defineConfig({
   projects: [
     {
         name:'login setup',
+        testDir: './auth',
         testMatch: 'learnqa-login.setup.spec.ts',
     },
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 }, storageState: '.auth/storageState.json' }, dependencies: ['login setup'],
+      name: 'tests with login[Chromium]',
+      testIgnore: /network-interception\.spec\.ts/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 }, storageState: 'playwright/.auth/storageState.json' }, dependencies: ['login setup'],
     },
+    {
+      name: 'Network Interception',
+      testMatch: 'network-interception.spec.ts',
+    }
   ],
 });

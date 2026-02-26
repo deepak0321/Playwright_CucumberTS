@@ -9,6 +9,5 @@ setup('Authentication', async ({ browser }) => {
     await page.getByLabel('Password').fill(process.env.PASSWORD!);
     await page.getByRole('button', { name: 'Sign In' }).click();
     await expect(page.getByRole('status')).toHaveText('Successfully logged in!');
-    await page.context().storageState({ path: 'auth/storageState.json' });
-    
+    await page.context().storageState({ path: 'playwright/.auth/storageState.json' });
 });
