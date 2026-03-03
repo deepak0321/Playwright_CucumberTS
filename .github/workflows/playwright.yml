@@ -30,14 +30,12 @@ jobs:
 
       - run: npx playwright install --with-deps
 
-      # 🔹 Run tests with blob reporter (IMPORTANT)
       - name: Run Playwright tests
         run: npx playwright test --reporter=blob --shard=${{ matrix.shard }}/3
         env:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
 
-      # 🔹 Upload blob report
       - name: Upload blob report
         uses: actions/upload-artifact@v4
         with:
@@ -58,17 +56,16 @@ jobs:
 
       - run: npm ci
 
-      # 🔹 Download all blob reports
       - name: Download blob reports
         uses: actions/download-artifact@v4
         with:
-          path: all-blob-reports
+          path: blob-report
+          pattern: blob-report-*
+          merge-multiple: true
 
-      # 🔹 Merge into single HTML report
       - name: Merge reports
-        run: npx playwright merge-reports --reporter=html ./all-blob-reports
+        run: npx playwright merge-reports --reporter=html ./blob-report
 
-      # 🔹 Upload final merged HTML report
       - name: Upload Final HTML Report
         uses: actions/upload-artifact@v4
         with:
